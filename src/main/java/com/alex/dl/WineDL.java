@@ -10,14 +10,14 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-
+//Data layer
 public class WineDL {
 
     public static final String baseUrl =  "http://lcboapi.com/stores/643/products";
     public static final String WINES_PER_PAGE =  "10";
 
 
-
+    //api call
     public WineWrapper getWines(WineBL.WineType wineType, Integer nextPage) {
 
         if (nextPage != null) {

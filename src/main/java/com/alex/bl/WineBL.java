@@ -11,6 +11,8 @@ import com.alex.resources.UserController;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Random;
+//Business layer - BL
+
 
 public class WineBL {
 
@@ -20,7 +22,7 @@ public class WineBL {
         _wineDL = new WineDL();
     }
 
-    public enum WineType{
+    public enum WineType {
         WHITE("WHITE"),
         RED("RED");
 
@@ -35,40 +37,46 @@ public class WineBL {
         }
     }
 
-    public Wine getNextWine(HttpSession session) {
+//calling api to pull set of wines which passed our filter(type was drawn + price) and saving list of matching ones in session. If user rejects and same type drawn then we pull from already existing matching list,
+//when the list is empty , another api call initiated
+//  if another type drawn, we call api again and store another list of matching wines. We store page number for white & red wines in order to pull new ones if needed
+    public Wine getNextWine(HttpSession session) { //returns new wine according to requirements
 
         Wine selected = null;
         WineType wineType = getWineType();
 
         WineWrapper wineWrapper = getWinesListFromSession(wineType, session);
 
-        if (isWineListEmpty(wineWrapper)){
-            wineWrapper = getMatchingWineFromApi(session, wineType);/*ToDo (by Alex): call next page with wines*/
+        if (isWineListEmpty(wineWrapper)) {
+            wineWrapper = getMatchingWineFromApi(session, wineType);
         }
 
-        if (!isWineListEmpty(wineWrapper)){
+        if (!isWineListEmpty(wineWrapper)) {
             selected = removeWineFromWrapper(wineWrapper);
         }
 
-        updateSession(wineType,session,wineWrapper);
+        updateSession(wineType, session, wineWrapper);//updating list
 
         return selected;
     }
 
+//remove already shown wine from the filtered wines list
     private Wine removeWineFromWrapper(WineWrapper wineWrapper) {
         Wine selected;
         List<Wine> wineList = wineWrapper.getWines();
-        selected = wineList.get(0) ;
+        selected = wineList.get(0);
         wineList.remove(selected);
         wineWrapper.setWines(wineList);
         return selected;
     }
 
-
+    //user matching wines that already pulled from api
     private WineWrapper getWinesListFromSession(WineType wineType, HttpSession session) {
-        return  (WineWrapper)session.getAttribute(wineType.getName());
+        return (WineWrapper) session.getAttribute(wineType.getName());
     }
 
+
+    //get new wines from api according to type,price, page.(no matching wines from last api call left)
     private WineWrapper getMatchingWineFromApi(HttpSession session, WineType wineType) {
 
         WineWrapper wineWrapperFromSession = (WineWrapper) session.getAttribute(wineType.getName());
@@ -76,7 +84,7 @@ public class WineBL {
         Integer nextPage = pager.get_isFinalPage() ? null : pager.getNextPage();
 
 
-        WineWrapper wineWrapper = getWineDL().getWines(wineType,nextPage);
+        WineWrapper wineWrapper = getWineDL().getWines(wineType, nextPage); //data layer - api call
         if (wineWrapper != null) {
             User user = (User) session.getAttribute(UserController.USER);
             Filter priceFilter = user.getFilter();
@@ -88,10 +96,12 @@ public class WineBL {
 
     private void updateSession(WineType wineType, HttpSession session, WineWrapper wineWrapper) {
 
-        session.setAttribute(wineType.getName() ,wineWrapper);
+        session.setAttribute(wineType.getName(), wineWrapper);
 
     }
 
+
+    //choose randomly red/white with probability 0.25 for white
     private WineType getWineType() {
         Random rand = new Random();
         int val = rand.nextInt(4) + 1;
@@ -99,12 +109,8 @@ public class WineBL {
     }
 
     private boolean isWineListEmpty(WineWrapper wineWrapper) {
-        return wineWrapper == null || wineWrapper.getWines() == null || wineWrapper.getWines() .isEmpty();
+        return wineWrapper == null || wineWrapper.getWines() == null || wineWrapper.getWines().isEmpty();
     }
-
-
-
-
 
 
     public WineDL getWineDL() {

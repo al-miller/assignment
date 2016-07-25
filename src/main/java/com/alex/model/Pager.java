@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+//api pagination
 public class Pager {
 
     @XmlElement(name = "records_per_page")

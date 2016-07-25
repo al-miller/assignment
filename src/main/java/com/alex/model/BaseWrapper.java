@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonIgnoreProperties(        ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+//api response - basic fields
 public class BaseWrapper {
 
 

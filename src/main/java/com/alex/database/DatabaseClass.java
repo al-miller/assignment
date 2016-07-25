@@ -10,7 +10,7 @@ import java.util.Map;
 public class DatabaseClass {
 
     public static Map<String, User> users = new HashMap<>();
-
+    //Our database
     static {
         users.put("David", new User("David", new PriceFilter(0, 2000)));
         users.put("Grant", new User ("Grant", new PriceFilter(2000, Integer.MAX_VALUE)));

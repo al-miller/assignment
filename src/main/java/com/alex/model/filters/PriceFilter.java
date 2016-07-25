@@ -4,7 +4,7 @@ import com.alex.model.Wine;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//concrete price filter
 public class PriceFilter implements Filter{
     private Integer minPrice;//5
     private Integer maxPrice;//10
@@ -15,12 +15,14 @@ public class PriceFilter implements Filter{
     }
 
     @Override
+    //matching price filter
     public boolean filter(Wine wine){
         Integer price = wine.get_price();
         return price > minPrice && price < maxPrice;
     }
 
     @Override
+    //add to list if matches
     public List<Wine> filter(List<Wine> wines) {
         List<Wine> filtered = new ArrayList<>();
         if(wines != null){

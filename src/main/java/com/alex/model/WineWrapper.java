@@ -9,6 +9,7 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+//additional fields including wine and page info
 public class WineWrapper extends BaseWrapper {
 
 

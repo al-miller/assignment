@@ -3,7 +3,7 @@ package com.alex.bl;
 import com.alex.dl.UserDL;
 import com.alex.model.User;
 
-
+//business layer - BL
 public class UserBL {
 
     private UserDL _userDL;

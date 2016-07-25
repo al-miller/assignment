@@ -3,7 +3,7 @@ package com.alex.dl;
 import com.alex.database.DatabaseClass;
 import com.alex.model.User;
 
-
+//user data layer
 public class UserDL {
 
 

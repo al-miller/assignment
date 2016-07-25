@@ -13,7 +13,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
-
+//
 @Path("/wines")
 public class WineController {
 
@@ -21,6 +21,7 @@ public class WineController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    //picking new wine
     public Wine getNextWine(@Context UriInfo uriInfo, @Context HttpServletRequest request) {
 
 
@@ -28,6 +29,7 @@ public class WineController {
         if (session == null || session.getAttribute(UserController.USER) == null) {
             throw new InternalServerErrorException("Sorry. Something went wrong. Please contact support");
         }
+        //pick a new wine according to a price ant wine type(red/white)
         Wine nextWine = getWineBL().getNextWine(session);
         if(nextWine == null){
             throw new InternalServerErrorException("No more wines");

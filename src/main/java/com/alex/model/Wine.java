@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 @JsonIgnoreProperties(        ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+//
 public class Wine{
 
     @XmlElement(name = "id")
